@@ -199,6 +199,9 @@ importers:
       node-cron:
         specifier: ^4.6.0
         version: 4.6.0
+      taskwarrior-adapter:
+        specifier: ^0.1.1
+        version: 0.1.1
       web-push:
         specifier: ^3.6.7
         version: 3.6.7(supports-color@5.5.0)
@@ -2997,6 +3000,10 @@ packages:
   synckit@0.11.13:
     resolution: {integrity: sha512-eNRKgb3z66Yp3D2CixVujOUvXLFUTij/zVnV8KRyvFdQwpz7I5DS8UfRkTeLzb64u+dkzDSdelE24izu+zSSUg==}
     engines: {node: ^14.18.0 || >=16.0.0}
+
+  taskwarrior-adapter@0.1.1:
+    resolution: {integrity: sha512-5bl/ZVdmwSY4E7GVakH799qxt3sUk5FU+JXy1YvGnjbWRdWGqEjCMDquGFsISDjmQXAJj7oGJFUnK97LDFMxCg==}
+    engines: {node: '>=20'}
 
   test-exclude@7.0.2:
     resolution: {integrity: sha512-u9E6A+ZDYdp7a4WnarkXPZOx8Ilz46+kby6p1yZ8zsGTz9gYa6FIS7lj2oezzNKmtdyyJNNmmXDppga5GB7kSw==}
@@ -6095,6 +6102,8 @@ snapshots:
   synckit@0.11.13:
     dependencies:
       '@pkgr/core': 0.3.6
+
+  taskwarrior-adapter@0.1.1: {}
 
   test-exclude@7.0.2:
     dependencies:
