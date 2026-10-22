@@ -14,21 +14,7 @@ const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
   API_PREFIX: z.string().default('/api'),
   PORT: z.coerce.number().default(5000),
-  MONGODB_URI: z
-    .string()
-    .default(
-      'mongodb+srv://463688431_db_user:gKC7ua3kLIUahoY0@cluster0.dtdtza4.mongodb.net/simplechat?retryWrites=true&w=majority'
-    ),
-  JWT_SECRET: z.string().default('simple-chat-production-secure-jwt-secret-key-2026-v1'),
-  JWT_EXPIRES_IN: z.string().default('30d'),
-  SIGNUP_ENABLED: z
-    .string()
-    .default('true')
-    .transform((val) => val === 'true' || val === '1'),
   CORS_ORIGIN: z.string().default('http://localhost:5000'),
-  VAPID_PUBLIC_KEY: z.string().optional(),
-  VAPID_PRIVATE_KEY: z.string().optional(),
-  VAPID_SUBJECT: z.string().default('mailto:admin@simplechat.local'),
   TASKWARRIOR_COMMAND: z.string().default('task'),
 });
 
