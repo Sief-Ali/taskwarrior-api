@@ -6,6 +6,8 @@ import { env } from '@config/env.js';
 import { errorHandler } from 'src/middleware/errorHandler.js';
 
 import { systemRouter } from '@router/system/system';
+import { tasksRouter } from './modules/tasks/tasks.routes.js';
+import { setupSwagger } from './swaggerConfig.js';
 
 export function createApp(): Application {
   const app = express();
@@ -30,6 +32,10 @@ export function createApp(): Application {
   // API Routes
   app.use(env.API_PREFIX, systemRouter);
 
+  app.use(env.API_PREFIX + '/tasks', tasksRouter);
+
+  setupSwagger(app);
+
   // 404 Handler
   app.use((_req: Request, res: Response) => {
     res.status(404).json({
@@ -43,4 +49,3 @@ export function createApp(): Application {
 
   return app;
 }
-

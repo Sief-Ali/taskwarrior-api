@@ -11,7 +11,8 @@
       "@middleware/*": ["./src/middleware/*"],
       "@modules/*": ["./src/modules/*"],
       "@service/*": ["./src/modules/*.service.ts"],
-      "@router/*": ["./src/modules/*.routes.ts"]
+      "@router/*": ["./src/modules/*.routes.ts"],
+      "@infrastructure/*": ["./src/infrastructure/*"],
     },
 
     // Environment Settings
