@@ -1,7 +1,8 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "description": "",
+  "name": "taskwarrior-api",
+  "version": "0.1.0",
+  "description": "A simple API for Taskwarrior",
+  "license": "MIT",
   "main": "./dist/server.js",
   "scripts": {
     "dev": "nodemon",
@@ -12,14 +13,21 @@
     "test": "jest --runInBand --detectOpenHandles --forceExit"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Sief Ali",
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
       "version": "12.14.0",
       "onFail": "download"
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sief-Ali/taskwarrior-api.git"
+  },
+  "homepage": "https://github.com/Sief-Ali/taskwarrior-api#readme",
+  "bugs": {
+    "url": "https://github.com/Sief-Ali/taskwarrior-api/issues"
   },
   "packageManager": "pnpm@12.14.0",
   "type": "module",
