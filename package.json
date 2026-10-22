@@ -35,6 +35,8 @@
     "mongoose": "^9.11.2",
     "morgan": "^1.12.1",
     "node-cron": "^4.6.0",
+    "swagger-jsdoc": "^6.3.0",
+    "swagger-ui-express": "^5.0.1",
     "taskwarrior-adapter": "^0.1.1",
     "web-push": "^3.6.7",
     "zod": "^4.6.7"
@@ -50,6 +52,8 @@
     "@types/node": "^26.6.5",
     "@types/node-cron": "^3.0.11",
     "@types/supertest": "^7.2.1",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.8",
     "@types/web-push": "^3.6.4",
     "@typescript-eslint/eslint-plugin": "^8.72.0",
     "@typescript-eslint/parser": "^8.72.0",
