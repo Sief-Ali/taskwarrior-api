@@ -29,6 +29,7 @@ const envSchema = z.object({
   VAPID_PUBLIC_KEY: z.string().optional(),
   VAPID_PRIVATE_KEY: z.string().optional(),
   VAPID_SUBJECT: z.string().default('mailto:admin@simplechat.local'),
+  TASKWARRIOR_COMMAND: z.string().default('task'),
 });
 
 const parsed = envSchema.safeParse(process.env);
@@ -39,4 +40,3 @@ if (!parsed.success) {
 }
 
 export const env = parsed.data;
-
