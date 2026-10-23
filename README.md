@@ -19,6 +19,7 @@ New to the project? Start with the [Developer Guide](./docs/development.md) for 
 - Retrieve the list of tasks.
 - Retrieve an individual task by UUID.
 - Create a task with a description and optional project, priority, due date, and tags.
+- Modify a task's description, project, priority, due date, or tags by UUID.
 - JSON responses over REST endpoints.
 - OpenAPI documentation through Swagger UI.
 - Environment-based configuration with Zod validation.
@@ -219,6 +220,17 @@ curl -X POST http://localhost:5000/v1/tasks \
 The API has no authentication or authorization. Restrict write access at the
 network or deployment boundary.
 
+### `PATCH /v1/tasks/:uuid`
+
+Updates one or more task fields; fields not supplied remain unchanged. Use
+`addTags` and `removeTags` to adjust tags. The endpoint returns `204 No Content`.
+
+```bash
+curl -X PATCH http://localhost:5000/v1/tasks/1ad3ddbd-acde-4f06-80ce-2672c88e72c2 \
+  -H 'Content-Type: application/json' \
+  -d '{"priority":"H","addTags":["urgent"],"removeTags":["someday"]}'
+```
+
 ### Taskwarrior errors
 
 Taskwarrior adapter failures are returned with an HTTP status, a stable adapter
@@ -320,8 +332,9 @@ The API currently supports these Taskwarrior operations:
 - List tasks.
 - Find a task by UUID.
 - Create a task.
+- Modify a task.
 
-Editing, completion, deletion, synchronization, and authentication are not
+Completion, deletion, synchronization, and authentication are not
 currently implemented as API features.
 
 The API's rate limiter is configured for the health and task routes. The current code does not provide user authentication or authorization, so the service should not be exposed to an untrusted network without additional security controls.

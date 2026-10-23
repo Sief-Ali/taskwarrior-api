@@ -2,7 +2,7 @@
 import type { Request, Response, NextFunction } from 'express';
 import { TasksService } from './tasks.service.js';
 import { AppError } from '@middleware/errorHandler.js';
-import { createTaskSchema } from './taskRequestValidation.js';
+import { createTaskSchema, modifyTaskSchema } from './taskRequestValidation.js';
 
 const tasksService = new TasksService();
 
@@ -56,6 +56,24 @@ export class TasksController {
       }
 
       await tasksService.createTask(parsedBody.data);
+      res.status(204).end();
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async modifyTask(
+    req: Request<{ uuid: string }>,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const parsedBody = modifyTaskSchema.safeParse(req.body);
+      if (!parsedBody.success) {
+        throw new AppError('Invalid task input.', 400, true, 'INVALID_INPUT');
+      }
+
+      await tasksService.modifyTask(req.params.uuid, parsedBody.data);
       res.status(204).end();
     } catch (error) {
       next(error);

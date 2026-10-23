@@ -18,4 +18,41 @@ export const createTaskSchema = z
   })
   .strict();
 
+const tagChangesSchema = z
+  .array(tagSchema)
+  .min(1)
+  .refine((tags) => new Set(tags).size === tags.length);
+
+export const modifyTaskSchema = z
+  .object({
+    description: z
+      .string()
+      .min(1)
+      .max(4096)
+      .refine((value) => !value.includes('\0'))
+      .optional(),
+    project: projectSchema.optional(),
+    priority: z.enum(['H', 'M', 'L']).optional(),
+    due: dueSchema.optional(),
+    addTags: tagChangesSchema.optional(),
+    removeTags: tagChangesSchema.optional(),
+  })
+  .strict()
+  .refine(
+    (input) =>
+      input.description !== undefined ||
+      input.project !== undefined ||
+      input.priority !== undefined ||
+      input.due !== undefined ||
+      input.addTags !== undefined ||
+      input.removeTags !== undefined,
+  )
+  .refine(
+    (input) =>
+      !input.addTags ||
+      !input.removeTags ||
+      !input.addTags.some((tag) => input.removeTags?.includes(tag)),
+  );
+
 export type CreateTaskRequest = z.infer<typeof createTaskSchema>;
+export type ModifyTaskRequest = z.infer<typeof modifyTaskSchema>;

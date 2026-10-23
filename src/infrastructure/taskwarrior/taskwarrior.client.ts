@@ -14,6 +14,15 @@ export interface CreateTaskInput {
   tags?: string[] | undefined;
 }
 
+export interface ModifyTaskInput {
+  description?: string | undefined;
+  project?: string | undefined;
+  priority?: TaskPriority | undefined;
+  due?: string | undefined;
+  addTags?: string[] | undefined;
+  removeTags?: string[] | undefined;
+}
+
 export class TaskwarriorService {
   private readonly client: TaskwarriorClient;
 
@@ -49,6 +58,19 @@ export class TaskwarriorService {
     if (input.priority !== undefined) command = command.priority(input.priority);
     if (input.due !== undefined) command = command.due(input.due);
     for (const tag of input.tags ?? []) command = command.tag(tag);
+
+    await command.execute();
+  }
+
+  async modifyTask(uuid: string, input: ModifyTaskInput): Promise<void> {
+    let command = this.client.tasks.modify(uuid);
+
+    if (input.description !== undefined) command = command.description(input.description);
+    if (input.project !== undefined) command = command.project(input.project);
+    if (input.priority !== undefined) command = command.priority(input.priority);
+    if (input.due !== undefined) command = command.due(input.due);
+    for (const tag of input.addTags ?? []) command = command.addTag(tag);
+    for (const tag of input.removeTags ?? []) command = command.removeTag(tag);
 
     await command.execute();
   }

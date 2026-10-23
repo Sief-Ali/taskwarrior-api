@@ -19,8 +19,10 @@ Current API operations:
 - `GET /v1/tasks/:uuid`: looks up one task by its canonical UUID.
 - `POST /v1/tasks`: creates a task with validated description and optional
   project, priority, due date, and tags; returns `204` on success.
+- `PATCH /v1/tasks/:uuid`: changes supported fields on a task; returns `204` on
+  success.
 
-Task modification, completion, deletion, authentication, and arbitrary task
+Task completion, deletion, authentication, and arbitrary task
 filters are not currently implemented.
 
 The create route is a real write operation. The API does not implement

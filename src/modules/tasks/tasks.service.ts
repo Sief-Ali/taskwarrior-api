@@ -4,6 +4,7 @@ import {
 import { AppError } from '@middleware/errorHandler.js';
 import { TaskwarriorService } from '../../infrastructure/taskwarrior/taskwarrior.client.js';
 import type { CreateTaskRequest } from './taskRequestValidation.js';
+import type { ModifyTaskRequest } from './taskRequestValidation.js';
 
 export function mapTaskwarriorError(error: unknown): never {
   const mappedError = getTaskwarriorHttpError(error);
@@ -55,6 +56,14 @@ export class TasksService {
   async createTask(input: CreateTaskRequest): Promise<void> {
     try {
       await this.taskwarriorService.createTask(input);
+    } catch (error) {
+      return mapTaskwarriorError(error);
+    }
+  }
+
+  async modifyTask(uuid: string, input: ModifyTaskRequest): Promise<void> {
+    try {
+      await this.taskwarriorService.modifyTask(uuid, input);
     } catch (error) {
       return mapTaskwarriorError(error);
     }

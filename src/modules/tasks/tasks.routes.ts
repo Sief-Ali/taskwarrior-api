@@ -117,6 +117,65 @@ router.post('/', rateLimiter(30, 60000), (req, res, next) => tasksController.cre
 /**
  * @swagger
  * /tasks/{uuid}:
+ *   patch:
+ *     summary: Modify a task
+ *     description: Changes only the supplied fields on one task. This write endpoint has no API authentication; restrict access at the network or deployment boundary.
+ *     tags: [Tasks]
+ *     parameters:
+ *       - in: path
+ *         name: uuid
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             additionalProperties: false
+ *             properties:
+ *               description:
+ *                 type: string
+ *                 minLength: 1
+ *                 maxLength: 4096
+ *               project:
+ *                 type: string
+ *                 maxLength: 256
+ *               priority:
+ *                 type: string
+ *                 enum: [H, M, L]
+ *               due:
+ *                 type: string
+ *                 maxLength: 128
+ *               addTags:
+ *                 type: array
+ *                 minItems: 1
+ *                 items:
+ *                   type: string
+ *               removeTags:
+ *                 type: array
+ *                 minItems: 1
+ *                 items:
+ *                   type: string
+ *     responses:
+ *       204:
+ *         description: Task modified.
+ *       400:
+ *         description: The UUID or request input is invalid.
+ *       502:
+ *         description: Taskwarrior failed or returned invalid output.
+ *       503:
+ *         description: Taskwarrior is not installed or unavailable.
+ *       504:
+ *         description: Taskwarrior command timed out.
+ */
+router.patch<{ uuid: string }>('/:uuid', rateLimiter(30, 60000), (req, res, next) => tasksController.modifyTask(req, res, next));
+
+/**
+ * @swagger
+ * /tasks/{uuid}:
  *   get:
  *     summary: Get task by UUID
  *     description: Retrieves a task by its UUID.
