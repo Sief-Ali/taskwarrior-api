@@ -239,15 +239,13 @@ Requests to unregistered routes return HTTP `404` with a JSON response:
 }
 ```
 
-## Interactive API Documentation
+## API Documentation
 
-Swagger UI is mounted at three paths:
+- [API reference](./docs/api.md): endpoint behavior, response shapes, and adapter errors.
+- [Interactive Swagger UI](http://localhost:5000/v1/api-docs) when the server is running with the default `/v1` prefix.
+- Swagger UI is also available at `http://localhost:5000/api-docs`.
 
-- `http://localhost:5000/docs`
-- Default: `http://localhost:5000/api-docs`
-- Under the default API prefix: `http://localhost:5000/v1/api-docs`
-
-Use Swagger UI to inspect the documented endpoints and try requests against the running server.
+Use Swagger UI to inspect the OpenAPI specification and try requests against the running server.
 
 ## Project Structure
 
