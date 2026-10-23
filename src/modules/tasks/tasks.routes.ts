@@ -164,6 +164,8 @@ router.post('/', rateLimiter(30, 60000), (req, res, next) => tasksController.cre
  *         description: Task modified.
  *       400:
  *         description: The UUID or request input is invalid.
+ *       404:
+ *         description: Task not found.
  *       502:
  *         description: Taskwarrior failed or returned invalid output.
  *       503:
@@ -172,6 +174,36 @@ router.post('/', rateLimiter(30, 60000), (req, res, next) => tasksController.cre
  *         description: Taskwarrior command timed out.
  */
 router.patch<{ uuid: string }>('/:uuid', rateLimiter(30, 60000), (req, res, next) => tasksController.modifyTask(req, res, next));
+
+/**
+ * @swagger
+ * /tasks/{uuid}/complete:
+ *   post:
+ *     summary: Complete a task
+ *     description: Marks the task completed. This write endpoint has no API authentication; restrict access at the network or deployment boundary.
+ *     tags: [Tasks]
+ *     parameters:
+ *       - in: path
+ *         name: uuid
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *     responses:
+ *       204:
+ *         description: Task completed.
+ *       400:
+ *         description: The UUID is invalid.
+ *       404:
+ *         description: Task not found.
+ *       502:
+ *         description: Taskwarrior failed.
+ *       503:
+ *         description: Taskwarrior is not installed or unavailable.
+ *       504:
+ *         description: Taskwarrior command timed out.
+ */
+router.post<{ uuid: string }>('/:uuid/complete', rateLimiter(30, 60000), (req, res, next) => tasksController.completeTask(req, res, next));
 
 /**
  * @swagger

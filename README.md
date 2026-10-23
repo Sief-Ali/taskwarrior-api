@@ -20,6 +20,7 @@ New to the project? Start with the [Developer Guide](./docs/development.md) for 
 - Retrieve an individual task by UUID.
 - Create a task with a description and optional project, priority, due date, and tags.
 - Modify a task's description, project, priority, due date, or tags by UUID.
+- Complete a task by UUID.
 - JSON responses over REST endpoints.
 - OpenAPI documentation through Swagger UI.
 - Environment-based configuration with Zod validation.
@@ -231,6 +232,11 @@ curl -X PATCH http://localhost:5000/v1/tasks/1ad3ddbd-acde-4f06-80ce-2672c88e72c
   -d '{"priority":"H","addTags":["urgent"],"removeTags":["someday"]}'
 ```
 
+### `POST /v1/tasks/:uuid/complete`
+
+Marks a task completed and returns `204 No Content`; it does not delete or purge
+the task.
+
 ### Taskwarrior errors
 
 Taskwarrior adapter failures are returned with an HTTP status, a stable adapter
@@ -333,8 +339,9 @@ The API currently supports these Taskwarrior operations:
 - Find a task by UUID.
 - Create a task.
 - Modify a task.
+- Complete a task.
 
-Completion, deletion, synchronization, and authentication are not
+Deletion, synchronization, and authentication are not
 currently implemented as API features.
 
 The API's rate limiter is configured for the health and task routes. The current code does not provide user authentication or authorization, so the service should not be exposed to an untrusted network without additional security controls.

@@ -21,8 +21,10 @@ Current API operations:
   project, priority, due date, and tags; returns `204` on success.
 - `PATCH /v1/tasks/:uuid`: changes supported fields on a task; returns `204` on
   success.
+- `POST /v1/tasks/:uuid/complete`: marks an existing task completed and returns
+  `204`.
 
-Task completion, deletion, authentication, and arbitrary task
+Task deletion, authentication, and arbitrary task
 filters are not currently implemented.
 
 The create route is a real write operation. The API does not implement

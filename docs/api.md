@@ -76,7 +76,20 @@ curl -X PATCH http://localhost:5000/v1/tasks/1ad3ddbd-acde-4f06-80ce-2672c88e72c
 
 Success returns HTTP `204 No Content`. This endpoint performs a real write and
 has no API authentication; restrict access through trusted network/deployment
-controls.
+controls. A valid UUID with no matching task returns HTTP `404`.
+
+## `POST /v1/tasks/:uuid/complete`
+
+Marks the task completed without deleting or purging it. The UUID must be
+canonical and identify an exported task. Success returns HTTP `204 No Content`;
+an unknown task returns HTTP `404`.
+
+```bash
+curl -X POST http://localhost:5000/v1/tasks/1ad3ddbd-acde-4f06-80ce-2672c88e72c2/complete
+```
+
+This is a real write endpoint and has no API authentication. Restrict access
+through trusted network/deployment controls.
 
 ## Error responses
 

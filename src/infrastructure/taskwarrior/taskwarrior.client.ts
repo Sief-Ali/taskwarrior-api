@@ -74,4 +74,8 @@ export class TaskwarriorService {
 
     await command.execute();
   }
+
+  async completeTask(uuid: string): Promise<void> {
+    await this.client.tasks.complete(uuid).execute();
+  }
 }
