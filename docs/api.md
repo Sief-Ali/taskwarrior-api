@@ -91,6 +91,20 @@ curl -X POST http://localhost:5000/v1/tasks/1ad3ddbd-acde-4f06-80ce-2672c88e72c2
 This is a real write endpoint and has no API authentication. Restrict access
 through trusted network/deployment controls.
 
+## `DELETE /v1/tasks/:uuid`
+
+Marks a task as deleted using Taskwarrior's soft-delete operation. It does not
+purge the task from Taskwarrior data, and the task may remain in exports with
+`status: "deleted"`. Success returns HTTP `204 No Content`; an unknown task
+returns HTTP `404`.
+
+```bash
+curl -X DELETE http://localhost:5000/v1/tasks/1ad3ddbd-acde-4f06-80ce-2672c88e72c2
+```
+
+This endpoint has no API authentication. Restrict access through trusted
+network/deployment controls.
+
 ## Error responses
 
 Errors use the following JSON shape:

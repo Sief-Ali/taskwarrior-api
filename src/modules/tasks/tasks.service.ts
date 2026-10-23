@@ -79,6 +79,15 @@ export class TasksService {
     }
   }
 
+  async deleteTask(uuid: string): Promise<void> {
+    try {
+      await this.ensureTaskExists(uuid);
+      await this.taskwarriorService.deleteTask(uuid);
+    } catch (error) {
+      return mapTaskwarriorError(error);
+    }
+  }
+
   private async ensureTaskExists(uuid: string): Promise<void> {
     const task = await this.taskwarriorService.getTask(uuid);
     if (!task) throw new AppError('Task not found', 404, true, 'TASK_NOT_FOUND');

@@ -23,8 +23,10 @@ Current API operations:
   success.
 - `POST /v1/tasks/:uuid/complete`: marks an existing task completed and returns
   `204`.
+- `DELETE /v1/tasks/:uuid`: marks an existing task deleted (soft delete; no
+  purge) and returns `204`.
 
-Task deletion, authentication, and arbitrary task
+Authentication and arbitrary task
 filters are not currently implemented.
 
 The create route is a real write operation. The API does not implement

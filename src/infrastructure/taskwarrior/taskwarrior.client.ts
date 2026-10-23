@@ -78,4 +78,8 @@ export class TaskwarriorService {
   async completeTask(uuid: string): Promise<void> {
     await this.client.tasks.complete(uuid).execute();
   }
+
+  async deleteTask(uuid: string): Promise<void> {
+    await this.client.tasks.delete(uuid).execute();
+  }
 }

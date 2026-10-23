@@ -92,6 +92,19 @@ export class TasksController {
       next(error);
     }
   }
+
+  async deleteTask(
+    req: Request<{ uuid: string }>,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      await tasksService.deleteTask(req.params.uuid);
+      res.status(204).end();
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export const tasksController = new TasksController();
