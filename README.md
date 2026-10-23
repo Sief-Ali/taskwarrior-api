@@ -241,7 +241,7 @@ Requests to unregistered routes return HTTP `404` with a JSON response:
 
 ## Interactive API Documentation
 
-Swagger UI is mounted at two paths:
+Swagger UI is mounted at three paths:
 
 - `http://localhost:5000/docs`
 - Default: `http://localhost:5000/api-docs`
