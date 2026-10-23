@@ -23,6 +23,7 @@ New to the project? Start with the [Developer Guide](./docs/development.md) for 
 - Complete a task by UUID.
 - Soft-delete a task by UUID.
 - Start work on a task by UUID.
+- Stop work on a task by UUID.
 - JSON responses over REST endpoints.
 - OpenAPI documentation through Swagger UI.
 - Environment-based configuration with Zod validation.
@@ -249,6 +250,11 @@ task is not purged and may remain in Taskwarrior exports with status `deleted`.
 Records the task start time and returns `204 No Content`. Taskwarrior keeps the
 task status as `pending`.
 
+### `POST /v1/tasks/:uuid/stop`
+
+Clears the task start time and returns `204 No Content`. Taskwarrior keeps the
+task status as `pending`.
+
 ### Taskwarrior errors
 
 Taskwarrior adapter failures are returned with an HTTP status, a stable adapter
@@ -354,8 +360,9 @@ The API currently supports these Taskwarrior operations:
 - Complete a task.
 - Soft-delete a task.
 - Start work on a task.
+- Stop work on a task.
 
-Stopping work, synchronization, and authentication are not
+Synchronization and authentication are not
 currently implemented as API features.
 
 The API's rate limiter is configured for the health and task routes. The current code does not provide user authentication or authorization, so the service should not be exposed to an untrusted network without additional security controls.

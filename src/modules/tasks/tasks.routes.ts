@@ -267,6 +267,36 @@ router.post<{ uuid: string }>('/:uuid/start', rateLimiter(30, 60000), (req, res,
 
 /**
  * @swagger
+ * /tasks/{uuid}/stop:
+ *   post:
+ *     summary: Stop work on a task
+ *     description: Clears the task start time. This write endpoint has no API authentication; restrict access at the network or deployment boundary.
+ *     tags: [Tasks]
+ *     parameters:
+ *       - in: path
+ *         name: uuid
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *     responses:
+ *       204:
+ *         description: Task work stopped.
+ *       400:
+ *         description: The UUID is invalid.
+ *       404:
+ *         description: Task not found.
+ *       502:
+ *         description: Taskwarrior failed.
+ *       503:
+ *         description: Taskwarrior is not installed or unavailable.
+ *       504:
+ *         description: Taskwarrior command timed out.
+ */
+router.post<{ uuid: string }>('/:uuid/stop', rateLimiter(30, 60000), (req, res, next) => tasksController.stopTask(req, res, next));
+
+/**
+ * @swagger
  * /tasks/{uuid}:
  *   get:
  *     summary: Get task by UUID

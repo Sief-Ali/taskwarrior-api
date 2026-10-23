@@ -118,6 +118,19 @@ curl -X POST http://localhost:5000/v1/tasks/1ad3ddbd-acde-4f06-80ce-2672c88e72c2
 This endpoint has no API authentication. Restrict access through trusted
 network/deployment controls.
 
+## `POST /v1/tasks/:uuid/stop`
+
+Clears the start time for an existing task. Taskwarrior keeps its status as
+`pending`. Success returns HTTP `204 No Content`; an unknown task returns HTTP
+`404`.
+
+```bash
+curl -X POST http://localhost:5000/v1/tasks/1ad3ddbd-acde-4f06-80ce-2672c88e72c2/stop
+```
+
+This endpoint has no API authentication. Restrict access through trusted
+network/deployment controls.
+
 ## Error responses
 
 Errors use the following JSON shape:

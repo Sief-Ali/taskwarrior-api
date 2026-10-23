@@ -27,8 +27,10 @@ Current API operations:
   purge) and returns `204`.
 - `POST /v1/tasks/:uuid/start`: records the start time for an existing task and
   returns `204`.
+- `POST /v1/tasks/:uuid/stop`: clears the start time for an existing task and
+  returns `204`.
 
-Stopping work, authentication, and arbitrary task
+Authentication and arbitrary task
 filters are not currently implemented.
 
 The create route is a real write operation. The API does not implement

@@ -118,6 +118,19 @@ export class TasksController {
       next(error);
     }
   }
+
+  async stopTask(
+    req: Request<{ uuid: string }>,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      await tasksService.stopTask(req.params.uuid);
+      res.status(204).end();
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export const tasksController = new TasksController();
