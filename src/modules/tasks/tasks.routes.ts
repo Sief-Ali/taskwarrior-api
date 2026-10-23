@@ -64,6 +64,58 @@ router.get('/', rateLimiter(30, 60000), (req, res, next) => tasksController.getT
 
 /**
  * @swagger
+ * /tasks:
+ *   post:
+ *     summary: Create a task
+ *     description: Creates a task in the configured Taskwarrior data. This write endpoint has no API authentication; restrict access at the network or deployment boundary.
+ *     tags: [Tasks]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             additionalProperties: false
+ *             required: [description]
+ *             properties:
+ *               description:
+ *                 type: string
+ *                 minLength: 1
+ *                 maxLength: 4096
+ *                 example: Buy bread and milk
+ *               project:
+ *                 type: string
+ *                 maxLength: 256
+ *                 example: Home
+ *               priority:
+ *                 type: string
+ *                 enum: [H, M, L]
+ *               due:
+ *                 type: string
+ *                 maxLength: 128
+ *                 example: tomorrow
+ *               tags:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                   maxLength: 256
+ *                 example: [errands]
+ *     responses:
+ *       204:
+ *         description: Task created. No task representation is returned.
+ *       400:
+ *         description: The request contains invalid task input.
+ *       502:
+ *         description: Taskwarrior failed or returned invalid output.
+ *       503:
+ *         description: Taskwarrior is not installed or unavailable.
+ *       504:
+ *         description: Taskwarrior command timed out.
+ */
+router.post('/', rateLimiter(30, 60000), (req, res, next) => tasksController.createTask(req, res, next));
+
+/**
+ * @swagger
  * /tasks/{uuid}:
  *   get:
  *     summary: Get task by UUID

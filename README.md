@@ -3,7 +3,7 @@
 A lightweight REST API for exposing Taskwarrior tasks over HTTP. Built with **Node.js, TypeScript, Express, and [`taskwarrior-adapter`](https://www.npmjs.com/package/taskwarrior-adapter)**.
 
 > **Status:** Early development  
-> **Current scope:** Read-only task access
+> **Current scope:** Task reads and creation
 
 ## Overview
 
@@ -18,6 +18,7 @@ New to the project? Start with the [Developer Guide](./docs/development.md) for 
 - Check the API and Taskwarrior CLI version.
 - Retrieve the list of tasks.
 - Retrieve an individual task by UUID.
+- Create a task with a description and optional project, priority, due date, and tags.
 - JSON responses over REST endpoints.
 - OpenAPI documentation through Swagger UI.
 - Environment-based configuration with Zod validation.
@@ -203,6 +204,21 @@ If the task does not exist, the API responds with HTTP `404`:
 }
 ```
 
+### `POST /v1/tasks`
+
+Creates a Taskwarrior task. The `description` is required; `project`, `priority`,
+`due`, and `tags` are optional. The endpoint returns `204 No Content` on success
+because the adapter does not return the newly assigned task UUID.
+
+```bash
+curl -X POST http://localhost:5000/v1/tasks \
+  -H 'Content-Type: application/json' \
+  -d '{"description":"Buy bread and milk","project":"Home","priority":"M","due":"tomorrow","tags":["errands"]}'
+```
+
+The API has no authentication or authorization. Restrict write access at the
+network or deployment boundary.
+
 ### Taskwarrior errors
 
 Taskwarrior adapter failures are returned with an HTTP status, a stable adapter
@@ -298,13 +314,15 @@ The main application code is organized by responsibility:
 
 ## Current Scope and Limitations
 
-The API currently supports reading Taskwarrior data:
+The API currently supports these Taskwarrior operations:
 
 - Check the Taskwarrior version.
 - List tasks.
 - Find a task by UUID.
+- Create a task.
 
-Task creation, editing, completion, deletion, synchronization, and authentication are not currently implemented as API features.
+Editing, completion, deletion, synchronization, and authentication are not
+currently implemented as API features.
 
 The API's rate limiter is configured for the health and task routes. The current code does not provide user authentication or authorization, so the service should not be exposed to an untrusted network without additional security controls.
 

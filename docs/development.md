@@ -17,9 +17,14 @@ Current API operations:
   health.
 - `GET /v1/tasks`: returns the tasks included by Taskwarrior's export.
 - `GET /v1/tasks/:uuid`: looks up one task by its canonical UUID.
+- `POST /v1/tasks`: creates a task with validated description and optional
+  project, priority, due date, and tags; returns `204` on success.
 
-Task creation, changes, completion, deletion, authentication, and arbitrary task
+Task modification, completion, deletion, authentication, and arbitrary task
 filters are not currently implemented.
+
+The create route is a real write operation. The API does not implement
+authentication, so keep it behind trusted network or deployment controls.
 
 ## Prerequisites
 

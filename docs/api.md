@@ -40,6 +40,26 @@ not match a task returns HTTP `404`.
 curl http://localhost:5000/v1/tasks/1ad3ddbd-acde-4f06-80ce-2672c88e72c2
 ```
 
+## `POST /v1/tasks`
+
+Creates a task in the configured Taskwarrior data. The request body must be a
+JSON object with a non-empty `description` (maximum 4096 characters). Optional
+fields are `project`, `priority` (`H`, `M`, or `L`), `due`, and `tags` (an array
+of tag strings). Unsupported properties and unsafe field values are rejected
+with HTTP `400`.
+
+```bash
+curl -X POST http://localhost:5000/v1/tasks \
+  -H 'Content-Type: application/json' \
+  -d '{"description":"Buy bread and milk","project":"Home","priority":"M","due":"tomorrow","tags":["errands"]}'
+```
+
+Success returns HTTP `204 No Content`. The adapter does not return the new task's
+UUID or parse human-readable command output to infer it.
+
+This endpoint performs a real write and the API does not provide authentication.
+Restrict access through trusted network/deployment controls.
+
 ## Error responses
 
 Errors use the following JSON shape:

@@ -3,6 +3,7 @@ import {
 } from './taskwarriorErrorMapping.js';
 import { AppError } from '@middleware/errorHandler.js';
 import { TaskwarriorService } from '../../infrastructure/taskwarrior/taskwarrior.client.js';
+import type { CreateTaskRequest } from './taskRequestValidation.js';
 
 export function mapTaskwarriorError(error: unknown): never {
   const mappedError = getTaskwarriorHttpError(error);
@@ -46,6 +47,14 @@ export class TasksService {
   async getTaskById(uuid: string) {
     try {
       return await this.taskwarriorService.getTask(uuid);
+    } catch (error) {
+      return mapTaskwarriorError(error);
+    }
+  }
+
+  async createTask(input: CreateTaskRequest): Promise<void> {
+    try {
+      await this.taskwarriorService.createTask(input);
     } catch (error) {
       return mapTaskwarriorError(error);
     }

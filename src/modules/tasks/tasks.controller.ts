@@ -1,6 +1,8 @@
 
 import type { Request, Response, NextFunction } from 'express';
 import { TasksService } from './tasks.service.js';
+import { AppError } from '@middleware/errorHandler.js';
+import { createTaskSchema } from './taskRequestValidation.js';
 
 const tasksService = new TasksService();
 
@@ -37,6 +39,24 @@ export class TasksController {
       }
 
       res.status(200).json(task);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async createTask(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const parsedBody = createTaskSchema.safeParse(req.body);
+      if (!parsedBody.success) {
+        throw new AppError('Invalid task input.', 400, true, 'INVALID_INPUT');
+      }
+
+      await tasksService.createTask(parsedBody.data);
+      res.status(204).end();
     } catch (error) {
       next(error);
     }
