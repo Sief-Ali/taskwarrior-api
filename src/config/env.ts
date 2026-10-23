@@ -12,7 +12,7 @@ dotenv.config({ path: path.join(currentDirectory, '../../.env') });
 
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
-  API_PREFIX: z.string().default('/api'),
+  API_PREFIX: z.string().default('/v1'),
   PORT: z.coerce.number().default(5000),
   CORS_ORIGIN: z.string().default('http://localhost:5000'),
   TASKWARRIOR_COMMAND: z.string().default('task'),

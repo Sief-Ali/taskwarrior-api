@@ -97,7 +97,7 @@ The repository provides an `.env.example` with these variables:
 | `CORS_ORIGIN` | `http://localhost:3000` | Additional configured frontend origin |
 | `TASKWARRIOR_COMMAND` | `task` | Intended Taskwarrior CLI command setting |
 
-The environment schema currently defaults to `API_PREFIX=/api` when the variable is not set. If you use the supplied `.env.example` unchanged, the prefix is `/v1`.
+The environment schema and supplied `.env.example` both default to `API_PREFIX=/v1`.
 
 **Current implementation note:** `TASKWARRIOR_COMMAND` is declared in the environment configuration, but it is not yet passed into the Taskwarrior client constructor. The adapter therefore uses its own default command unless the backend is updated to forward this option.
 
@@ -133,9 +133,9 @@ The server listens on the configured port, defaulting to `5000`.
 
 ## API Reference
 
-With the default configuration, the API prefix is `/api`. If `API_PREFIX=/v1` is set, replace `/api` with `/v1` in the task and health endpoints below.
+With the default configuration, the API prefix is `/v1`.
 
-### `GET /api/health`
+### `GET /v1/health`
 
 Returns the backend's health information and the installed Taskwarrior version.
 
@@ -157,7 +157,7 @@ The version, timestamp, and uptime values depend on the running system. The vers
 
 The endpoint currently calls Taskwarrior to obtain its version. If that command fails, the health request can fail as well.
 
-### `GET /api/tasks`
+### `GET /v1/tasks`
 
 Returns the tasks exported by Taskwarrior as a JSON array.
 
@@ -180,14 +180,14 @@ Example response:
 
 The example illustrates a task response. Actual fields and values depend on your Taskwarrior data; additional task attributes may be present.
 
-### `GET /api/tasks/:uuid`
+### `GET /v1/tasks/:uuid`
 
 Retrieves a single task using its UUID.
 
 Example request:
 
 ```bash
-curl http://localhost:5000/api/tasks/1ad3ddbd-acde-4f06-80ce-2672c88e72c2
+curl http://localhost:5000/v1/tasks/1ad3ddbd-acde-4f06-80ce-2672c88e72c2
 ```
 
 A successful request returns the task object as JSON.
@@ -217,9 +217,7 @@ Requests to unregistered routes return HTTP `404` with a JSON response:
 Swagger UI is mounted at two paths:
 
 - Default: `http://localhost:5000/api-docs`
-- Under the configured API prefix: `http://localhost:5000/api/api-docs`
-
-When `API_PREFIX=/v1`, the second URL becomes `http://localhost:5000/v1/api-docs`.
+- Under the default API prefix: `http://localhost:5000/v1/api-docs`
 
 Use Swagger UI to inspect the documented endpoints and try requests against the running server.
 
