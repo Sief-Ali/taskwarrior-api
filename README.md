@@ -11,6 +11,8 @@ TaskWarrior API provides an HTTP interface to a local Taskwarrior installation. 
 
 The API is intended to make Taskwarrior data accessible to web applications, desktop clients, dashboards, and other services without requiring those clients to invoke the CLI themselves.
 
+New to the project? Start with the [Developer Guide](./docs/development.md) for setup, architecture, tests, and contribution instructions.
+
 ## Features
 
 - Check the API and Taskwarrior CLI version.
@@ -242,6 +244,7 @@ Requests to unregistered routes return HTTP `404` with a JSON response:
 ## API Documentation
 
 - [API reference](./docs/api.md): endpoint behavior, response shapes, and adapter errors.
+- [Developer guide](./docs/development.md): local setup, configuration, architecture, testing, and contribution workflow.
 - [Interactive Swagger UI](http://localhost:5000/v1/api-docs) when the server is running with the default `/v1` prefix.
 - Swagger UI is also available at `http://localhost:5000/api-docs`.
 
@@ -252,25 +255,37 @@ Use Swagger UI to inspect the OpenAPI specification and try requests against the
 The main application code is organized by responsibility:
 
 ```text
-src/
-├── app.ts
-├── server.ts
-├── config/
-│   └── env.ts
-├── infrastructure/
-│   └── taskwarrior/
-│       ├── index.ts
-│       └── taskwarrior.client.ts
-├── modules/
-│   ├── system/
-│   │   ├── system.routes.ts
-│   │   ├── system.controller.ts
-│   │   └── system.service.ts
-│   └── tasks/
-│       ├── tasks.routes.ts
-│       ├── tasks.controller.ts
-│       └── tasks.service.ts
-└── swaggerConfig.ts
+.
+├── docs/
+│   ├── api.md
+│   └── development.md
+├── src/
+│   ├── app.ts
+│   ├── server.ts
+│   ├── config/
+│   │   └── env.ts
+│   ├── infrastructure/
+│   │   └── taskwarrior/
+│   │       ├── index.ts
+│   │       └── taskwarrior.client.ts
+│   ├── middleware/
+│   │   ├── errorHandler.ts
+│   │   └── rateLimiter.ts
+│   ├── modules/
+│   │   ├── system/
+│   │   │   ├── system.routes.ts
+│   │   │   ├── system.controller.ts
+│   │   │   └── system.service.ts
+│   │   └── tasks/
+│   │       ├── tasks.routes.ts
+│   │       ├── tasks.controller.ts
+│   │       ├── tasks.service.ts
+│   │       └── taskwarriorErrorMapping.ts
+│   └── swaggerConfig.ts
+├── test/
+│   └── taskwarriorErrorMapping.test.cjs
+├── jest.config.cjs
+└── package.json
 ```
 
 - **`app.ts`** — Configures Express middleware, routes, Swagger, and error handling.
