@@ -3,7 +3,7 @@
 A lightweight REST API for exposing Taskwarrior tasks over HTTP. Built with **Node.js, TypeScript, Express, and [`taskwarrior-adapter`](https://www.npmjs.com/package/taskwarrior-adapter)**.
 
 > **Status:** Early development  
-> **Current scope:** Task reads and creation
+> **Current scope:** Task reads, CRUD, and lifecycle operations
 
 ## Overview
 
@@ -283,6 +283,9 @@ Example response:
 }
 ```
 
+Mutation endpoints return HTTP `404` with code `TASK_NOT_FOUND` when a valid
+UUID is absent from the current Taskwarrior export.
+
 ### Unknown routes
 
 Requests to unregistered routes return HTTP `404` with a JSON response:
@@ -362,8 +365,8 @@ The API currently supports these Taskwarrior operations:
 - Start work on a task.
 - Stop work on a task.
 
-Synchronization and authentication are not
-currently implemented as API features.
+Synchronization and authentication are not currently implemented as API
+features.
 
 The API's rate limiter is configured for the health and task routes. The current code does not provide user authentication or authorization, so the service should not be exposed to an untrusted network without additional security controls.
 

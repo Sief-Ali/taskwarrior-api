@@ -8,10 +8,10 @@ describe("createTaskSchema", () => {
     expect(
       createTaskSchema.safeParse({
         description: "Buy bread and milk",
-        project: "Home Errands",
+        project: "Home Errands München",
         priority: "M",
-        due: "tomorrow",
-        tags: ["errands", "shopping-list"],
+        due: "mañana",
+        tags: ["errands", "café"],
       }).success,
     ).toBe(true);
   });
@@ -40,6 +40,7 @@ describe("createTaskSchema", () => {
 
   it.each([
     [{ description: "" }],
+    [{ description: "   " }],
     [{ description: "NUL\u0000character" }],
     [{ description: "Task", priority: "urgent" }],
     [{ description: "Task", project: "unsafe/value" }],

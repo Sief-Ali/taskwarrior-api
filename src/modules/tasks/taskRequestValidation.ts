@@ -4,13 +4,18 @@ const projectSchema = z
   .string()
   .min(1)
   .max(256)
-  .regex(/^[A-Za-z0-9 ._-]+$/);
-const tagSchema = z.string().min(1).max(256).regex(/^[A-Za-z0-9._-]+$/);
-const dueSchema = z.string().min(1).max(128).regex(/^[A-Za-z0-9._+-]+$/);
+  .regex(/^[\p{L}\p{N}_.-]+(?: [\p{L}\p{N}_.-]+)*$/u);
+const tagSchema = z.string().min(1).max(256).regex(/^[\p{L}\p{N}_.-]+$/u);
+const dueSchema = z.string().min(1).max(128).regex(/^[\p{L}\p{N}_.+-]+$/u);
+const descriptionSchema = z
+  .string()
+  .min(1)
+  .max(4096)
+  .refine((value) => value.trim().length > 0 && !value.includes('\0'));
 
 export const createTaskSchema = z
   .object({
-    description: z.string().min(1).max(4096).refine((value) => !value.includes('\0')),
+    description: descriptionSchema,
     project: projectSchema.optional(),
     priority: z.enum(['H', 'M', 'L']).optional(),
     due: dueSchema.optional(),
@@ -25,12 +30,7 @@ const tagChangesSchema = z
 
 export const modifyTaskSchema = z
   .object({
-    description: z
-      .string()
-      .min(1)
-      .max(4096)
-      .refine((value) => !value.includes('\0'))
-      .optional(),
+    description: descriptionSchema.optional(),
     project: projectSchema.optional(),
     priority: z.enum(['H', 'M', 'L']).optional(),
     due: dueSchema.optional(),

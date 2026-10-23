@@ -6,9 +6,9 @@ to its development. For endpoint paths and response examples, see the
 
 ## What this project does
 
-The API exposes read-only HTTP endpoints over a local Taskwarrior installation.
-It does not keep a separate task database: Taskwarrior remains the source of
-truth, and the [`taskwarrior-adapter`](https://github.com/Sief-Ali/taskwarrior-adapter)
+The API exposes HTTP endpoints over a local Taskwarrior installation. It does
+not keep a separate task database: Taskwarrior remains the source of truth, and
+the [`taskwarrior-adapter`](https://github.com/Sief-Ali/taskwarrior-adapter)
 package runs the Taskwarrior CLI and returns typed results.
 
 Current API operations:
@@ -30,10 +30,9 @@ Current API operations:
 - `POST /v1/tasks/:uuid/stop`: clears the start time for an existing task and
   returns `204`.
 
-Authentication and arbitrary task
-filters are not currently implemented.
+Authentication and arbitrary task filters are not implemented.
 
-The create route is a real write operation. The API does not implement
+All task mutation routes perform real writes. The API does not implement
 authentication, so keep it behind trusted network or deployment controls.
 
 ## Prerequisites
@@ -189,10 +188,11 @@ Run the Jest suite:
 pnpm test
 ```
 
-The current suite covers the adapter-to-HTTP error mapping. Tests are CommonJS
-Jest files in `test/`; `test/transformer.cjs` uses the installed esbuild package
-to transform TypeScript source imports. This avoids relying on `ts-jest`, which
-is not compatible with the repository's installed TypeScript 7 compiler.
+The Jest suite covers adapter-to-HTTP error mapping, request-schema validation,
+and forwarding of task mutations to the adapter. Tests are CommonJS Jest files
+in `test/`; `test/transformer.cjs` uses the installed esbuild package to
+transform TypeScript source imports so Jest transformation does not depend on
+the TypeScript compiler API.
 
 Run a TypeScript check:
 
@@ -206,9 +206,8 @@ Run ESLint:
 pnpm lint
 ```
 
-The current ESLint configuration is TypeScript-based and ESLint 10 requires
-`jiti` to load it. If lint reports that `jiti` is missing, the lint tooling
-dependencies/configuration need to be fixed before this command can pass.
+The TypeScript ESLint configuration is loaded by ESLint 10 through the `jiti`
+development dependency.
 
 Build and start the production output:
 
@@ -217,11 +216,9 @@ pnpm build
 pnpm start
 ```
 
-The current `build` script also emits declaration files through tsup. The
-repository's installed TypeScript 7 no longer exposes the compiler API expected
-by the declaration bundler; if the build fails during declaration generation,
-align the TypeScript and tsup toolchain before treating the release build as
-validated. The backend type-check command above is a separate useful check.
+The `build` script emits the production JavaScript bundle. Declaration files are
+not generated because this repository is an application, not a published
+TypeScript library.
 
 ## Debugging tips
 
@@ -241,8 +238,7 @@ validated. The backend type-check command above is a separate useful check.
 
 ## Operational and security notes
 
-- The API is read-only, but task descriptions and custom attributes can contain
-  sensitive data.
+- Task descriptions and custom attributes can contain sensitive data.
 - There is no authentication or authorization. Keep the service on a trusted
   network or add an appropriate access-control layer before wider exposure.
 - The in-memory rate limiter is process-local and is not shared across multiple

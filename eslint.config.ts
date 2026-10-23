@@ -17,5 +17,24 @@ export default defineConfig([
   },
   {
     ignores: ["dist/", "node_modules/", "build/", "tsconfig.json"]
+  },
+  {
+    files: ["**/*.ts"],
+    rules: {
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_" }
+      ]
+    }
+  },
+  {
+    files: ["test/**/*.cjs"],
+    languageOptions: {
+      globals: { ...globals.node, ...globals.jest }
+    },
+    rules: {
+      "@typescript-eslint/no-require-imports": "off"
+    }
   }
 ]);

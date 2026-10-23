@@ -147,7 +147,7 @@ Errors use the following JSON shape:
 message is returned; diagnostic details such as stderr and command arguments are
 kept in server logs.
 
-| Adapter error code | HTTP status | Meaning |
+| Error code | HTTP status | Meaning |
 |---|---:|---|
 | `INVALID_UUID` | `400` | The supplied UUID is not in canonical format. |
 | `COMMAND_FAILED` | `502` | Taskwarrior could not complete the operation. |
@@ -158,6 +158,7 @@ kept in server logs.
 | `INVALID_INPUT` | `400` | A task operation input is invalid. |
 | `NOT_INSTALLED` | `503` | Taskwarrior is not installed or is unavailable. |
 | `COMMAND_TIMEOUT` | `504` | Taskwarrior did not respond before the command timed out. |
+| `TASK_NOT_FOUND` | `404` | A mutation references a valid UUID absent from the current export. |
 
 A task UUID that is valid but does not identify an exported task returns HTTP
 `404` with:
@@ -168,6 +169,10 @@ A task UUID that is valid but does not identify an exported task returns HTTP
   "message": "Task not found"
 }
 ```
+
+Mutation endpoints include the API code `TASK_NOT_FOUND` when the UUID is valid
+but the task is absent from the current Taskwarrior export. The existing GET
+not-found response shown above does not include a code.
 
 Requests to unknown routes return HTTP `404`.
 
