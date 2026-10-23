@@ -1,6 +1,6 @@
 {
   "name": "taskwarrior-api",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A simple API for Taskwarrior",
   "license": "MIT",
   "main": "./dist/server.js",
@@ -39,7 +39,7 @@
     "morgan": "^1.12.1",
     "swagger-jsdoc": "^6.3.0",
     "swagger-ui-express": "^5.0.1",
-    "taskwarrior-adapter": "^0.1.1",
+    "taskwarrior-adapter": "^0.2.0",
     "zod": "^4.6.7"
   },
   "devDependencies": {

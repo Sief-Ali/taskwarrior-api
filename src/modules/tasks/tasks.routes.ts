@@ -51,6 +51,14 @@ const router = Router();
  *                   urgency:
  *                     type: number
  *                     example: 1
+ *       400:
+ *         description: Invalid task UUID.
+ *       502:
+ *         description: Taskwarrior failed or returned invalid output.
+ *       503:
+ *         description: Taskwarrior is not installed or unavailable.
+ *       504:
+ *         description: Taskwarrior command timed out.
  */
 router.get('/', rateLimiter(30, 60000), (req, res, next) => tasksController.getTasksList(req, res, next));
 
@@ -87,6 +95,14 @@ router.get('/', rateLimiter(30, 60000), (req, res, next) => tasksController.getT
  *                 urgency: 1
  *       404:
  *         description: Task not found
+ *       400:
+ *         description: Invalid task UUID.
+ *       502:
+ *         description: Taskwarrior failed or returned invalid output.
+ *       503:
+ *         description: Taskwarrior is not installed or unavailable.
+ *       504:
+ *         description: Taskwarrior command timed out.
  */
 router.get<{ uuid: string }>('/:uuid', rateLimiter(30, 60000), (req, res, next) => tasksController.getTaskById(req, res, next));
 

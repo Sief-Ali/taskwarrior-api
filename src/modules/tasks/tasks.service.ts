@@ -1,24 +1,53 @@
+import {
+  TaskwarriorError,
+  type TaskwarriorErrorCode,
+} from 'taskwarrior-adapter';
+import { AppError } from '@middleware/errorHandler.js';
 import { TaskwarriorService } from '../../infrastructure/taskwarrior/taskwarrior.client.js';
 
-// const version = await taskwarrior.getVersion();
-// const tasks = await taskwarrior.listTasks();
-// const task = await taskwarrior.getTask('your-task-uuid');
+interface TaskwarriorHttpError {
+  statusCode: number;
+}
 
+const statusByTaskwarriorCode: Record<TaskwarriorErrorCode, TaskwarriorHttpError> = {
+  NOT_INSTALLED: { statusCode: 503 },
+  COMMAND_FAILED: { statusCode: 502 },
+  COMMAND_TIMEOUT: { statusCode: 504 },
+  OUTPUT_LIMIT: { statusCode: 502 },
+  INVALID_JSON: { statusCode: 502 },
+  INVALID_TASK_DATA: { statusCode: 502 },
+  INVALID_UUID: { statusCode: 400 },
+};
+
+export function mapTaskwarriorError(error: unknown): never {
+  if (!(error instanceof TaskwarriorError)) {
+    throw error;
+  }
+
+  const { statusCode } = statusByTaskwarriorCode[error.code];
+  throw new AppError(error.message, statusCode, true, error.code, { cause: error });
+}
 
 export class TasksService {
   private readonly taskwarriorService: TaskwarriorService;
+
   constructor() {
     this.taskwarriorService = new TaskwarriorService();
   }
 
   async getTasksList() {
-    const tasks = await this.taskwarriorService.listTasks();
-
-    return tasks;
-    
+    try {
+      return await this.taskwarriorService.listTasks();
+    } catch (error) {
+      return mapTaskwarriorError(error);
+    }
   }
 
   async getTaskById(uuid: string) {
-    return this.taskwarriorService.getTask(uuid);
+    try {
+      return await this.taskwarriorService.getTask(uuid);
+    } catch (error) {
+      return mapTaskwarriorError(error);
+    }
   }
-};
+}

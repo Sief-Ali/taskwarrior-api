@@ -201,6 +201,33 @@ If the task does not exist, the API responds with HTTP `404`:
 }
 ```
 
+### Taskwarrior errors
+
+Taskwarrior adapter failures are returned with an HTTP status, a stable adapter
+error `code`, and the adapter's stable `message`. Diagnostic fields such as
+`detail`, `stderr`, and command arguments are logged server-side and are not
+included in the API response.
+
+| Adapter error code | HTTP status | Meaning |
+|---|---:|---|
+| `INVALID_UUID` | `400` | The supplied UUID is not in canonical format. |
+| `COMMAND_FAILED` | `502` | Taskwarrior could not complete the operation. |
+| `OUTPUT_LIMIT` | `502` | Taskwarrior output exceeded the adapter's configured limit. |
+| `INVALID_JSON` | `502` | Taskwarrior output was not valid JSON. |
+| `INVALID_TASK_DATA` | `502` | Taskwarrior returned invalid task data. |
+| `NOT_INSTALLED` | `503` | Taskwarrior is not installed or unavailable. |
+| `COMMAND_TIMEOUT` | `504` | Taskwarrior did not respond before the command timed out. |
+
+Example response:
+
+```json
+{
+  "success": false,
+  "code": "COMMAND_TIMEOUT",
+  "message": "Taskwarrior did not respond before the command timed out."
+}
+```
+
 ### Unknown routes
 
 Requests to unregistered routes return HTTP `404` with a JSON response:

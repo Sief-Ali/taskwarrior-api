@@ -4,4 +4,4 @@ allowBuilds:
   esbuild: true
   unrs-resolver: true
 minimumReleaseAgeExclude:
-  - taskwarrior-adapter@0.1.1
+  - taskwarrior-adapter@0.1.1 || 0.2.0
