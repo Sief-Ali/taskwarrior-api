@@ -10,6 +10,8 @@ describe("getTaskwarriorHttpError", () => {
     ["INVALID_JSON", 502],
     ["INVALID_TASK_DATA", 502],
     ["INVALID_UUID", 400],
+    ["INVALID_FILTER", 400],
+    ["INVALID_INPUT", 400],
   ])("maps %s to HTTP %i and preserves the stable message", (code, statusCode) => {
     const error = new TaskwarriorError(code, "adapter-specific diagnostic");
 

@@ -150,6 +150,7 @@ optional diagnostic fields. The backend maps codes as follows:
 | Adapter code | HTTP status |
 |---|---:|
 | `INVALID_UUID` | `400` |
+| `INVALID_FILTER`, `INVALID_INPUT` | `400` |
 | `COMMAND_FAILED`, `OUTPUT_LIMIT`, `INVALID_JSON`, `INVALID_TASK_DATA` | `502` |
 | `NOT_INSTALLED` | `503` |
 | `COMMAND_TIMEOUT` | `504` |

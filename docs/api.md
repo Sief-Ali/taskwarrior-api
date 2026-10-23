@@ -63,6 +63,8 @@ kept in server logs.
 | `OUTPUT_LIMIT` | `502` | Taskwarrior output exceeded the adapter limit. |
 | `INVALID_JSON` | `502` | Taskwarrior output was not valid JSON. |
 | `INVALID_TASK_DATA` | `502` | Taskwarrior returned invalid task data. |
+| `INVALID_FILTER` | `400` | A Taskwarrior filter value is invalid. |
+| `INVALID_INPUT` | `400` | A task operation input is invalid. |
 | `NOT_INSTALLED` | `503` | Taskwarrior is not installed or is unavailable. |
 | `COMMAND_TIMEOUT` | `504` | Taskwarrior did not respond before the command timed out. |
 

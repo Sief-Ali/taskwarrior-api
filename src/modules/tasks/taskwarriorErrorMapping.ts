@@ -17,6 +17,8 @@ const statusByTaskwarriorCode: Record<TaskwarriorErrorCode, number> = {
   INVALID_JSON: 502,
   INVALID_TASK_DATA: 502,
   INVALID_UUID: 400,
+  INVALID_FILTER: 400,
+  INVALID_INPUT: 400,
 };
 
 export function getTaskwarriorHttpError(

@@ -213,6 +213,7 @@ included in the API response.
 | Adapter error code | HTTP status | Meaning |
 |---|---:|---|
 | `INVALID_UUID` | `400` | The supplied UUID is not in canonical format. |
+| `INVALID_FILTER`, `INVALID_INPUT` | `400` | A filter or task operation input is invalid. |
 | `COMMAND_FAILED` | `502` | Taskwarrior could not complete the operation. |
 | `OUTPUT_LIMIT` | `502` | Taskwarrior output exceeded the adapter's configured limit. |
 | `INVALID_JSON` | `502` | Taskwarrior output was not valid JSON. |
