@@ -237,6 +237,36 @@ router.delete<{ uuid: string }>('/:uuid', rateLimiter(30, 60000), (req, res, nex
 
 /**
  * @swagger
+ * /tasks/{uuid}/start:
+ *   post:
+ *     summary: Start work on a task
+ *     description: Records the task start time. This write endpoint has no API authentication; restrict access at the network or deployment boundary.
+ *     tags: [Tasks]
+ *     parameters:
+ *       - in: path
+ *         name: uuid
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *     responses:
+ *       204:
+ *         description: Task work started.
+ *       400:
+ *         description: The UUID is invalid.
+ *       404:
+ *         description: Task not found.
+ *       502:
+ *         description: Taskwarrior failed.
+ *       503:
+ *         description: Taskwarrior is not installed or unavailable.
+ *       504:
+ *         description: Taskwarrior command timed out.
+ */
+router.post<{ uuid: string }>('/:uuid/start', rateLimiter(30, 60000), (req, res, next) => tasksController.startTask(req, res, next));
+
+/**
+ * @swagger
  * /tasks/{uuid}:
  *   get:
  *     summary: Get task by UUID

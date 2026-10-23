@@ -105,6 +105,19 @@ export class TasksController {
       next(error);
     }
   }
+
+  async startTask(
+    req: Request<{ uuid: string }>,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      await tasksService.startTask(req.params.uuid);
+      res.status(204).end();
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export const tasksController = new TasksController();

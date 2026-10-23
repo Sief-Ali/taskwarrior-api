@@ -25,8 +25,10 @@ Current API operations:
   `204`.
 - `DELETE /v1/tasks/:uuid`: marks an existing task deleted (soft delete; no
   purge) and returns `204`.
+- `POST /v1/tasks/:uuid/start`: records the start time for an existing task and
+  returns `204`.
 
-Authentication and arbitrary task
+Stopping work, authentication, and arbitrary task
 filters are not currently implemented.
 
 The create route is a real write operation. The API does not implement
