@@ -1,31 +1,31 @@
 import {
-  TaskwarriorError,
-  type TaskwarriorErrorCode,
-} from 'taskwarrior-adapter';
+  getTaskwarriorHttpError,
+} from './taskwarriorErrorMapping.js';
 import { AppError } from '@middleware/errorHandler.js';
 import { TaskwarriorService } from '../../infrastructure/taskwarrior/taskwarrior.client.js';
 
-interface TaskwarriorHttpError {
-  statusCode: number;
-}
-
-const statusByTaskwarriorCode: Record<TaskwarriorErrorCode, TaskwarriorHttpError> = {
-  NOT_INSTALLED: { statusCode: 503 },
-  COMMAND_FAILED: { statusCode: 502 },
-  COMMAND_TIMEOUT: { statusCode: 504 },
-  OUTPUT_LIMIT: { statusCode: 502 },
-  INVALID_JSON: { statusCode: 502 },
-  INVALID_TASK_DATA: { statusCode: 502 },
-  INVALID_UUID: { statusCode: 400 },
-};
-
 export function mapTaskwarriorError(error: unknown): never {
-  if (!(error instanceof TaskwarriorError)) {
-    throw error;
+  const mappedError = getTaskwarriorHttpError(error);
+  if (!mappedError) throw error;
+
+  if (mappedError.statusCode >= 500 && error instanceof Error) {
+    console.error('[Taskwarrior command error]', {
+      code: mappedError.code,
+      detail: 'detail' in error ? error.detail : undefined,
+      args: 'args' in error ? error.args : undefined,
+      exitCode: 'exitCode' in error ? error.exitCode : undefined,
+      signal: 'signal' in error ? error.signal : undefined,
+      stderr: 'stderr' in error ? error.stderr : undefined,
+    });
   }
 
-  const { statusCode } = statusByTaskwarriorCode[error.code];
-  throw new AppError(error.message, statusCode, true, error.code, { cause: error });
+  throw new AppError(
+    mappedError.message,
+    mappedError.statusCode,
+    true,
+    mappedError.code,
+    { cause: error },
+  );
 }
 
 export class TasksService {
