@@ -1,6 +1,7 @@
 import {
   getTaskwarriorHttpError,
 } from './taskwarriorErrorMapping.js';
+import { env } from '@config/env.js';
 import { AppError } from '@middleware/errorHandler.js';
 import { TaskwarriorService } from '../../infrastructure/taskwarrior/taskwarrior.client.js';
 import type { CreateTaskRequest } from './taskRequestValidation.js';
@@ -34,7 +35,9 @@ export class TasksService {
   private readonly taskwarriorService: TaskwarriorService;
 
   constructor() {
-    this.taskwarriorService = new TaskwarriorService();
+    this.taskwarriorService = new TaskwarriorService({
+      commandPath: env.TASKWARRIOR_COMMAND,
+    });
   }
 
   async getTasksList() {

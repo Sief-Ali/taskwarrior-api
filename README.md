@@ -103,11 +103,11 @@ The repository provides an `.env.example` with these variables:
 | `API_PREFIX` | `/v1` | Prefix for API routes |
 | `PORT` | `5000` | HTTP server port |
 | `CORS_ORIGIN` | `http://localhost:3000` | Additional configured frontend origin |
-| `TASKWARRIOR_COMMAND` | `task` | Intended Taskwarrior CLI command setting |
+| `TASKWARRIOR_COMMAND` | `task` | Taskwarrior executable path passed to the adapter's `commandPath` option |
 
 The environment schema and supplied `.env.example` both default to `API_PREFIX=/v1`.
 
-**Current implementation note:** `TASKWARRIOR_COMMAND` is declared in the environment configuration, but it is not yet passed into the Taskwarrior client constructor. The adapter therefore uses its own default command unless the backend is updated to forward this option.
+Set `TASKWARRIOR_COMMAND` to an absolute path when the Taskwarrior executable is not available as `task` on the server process's `PATH`.
 
 The application also permits requests from `http://localhost:3000` and `http://127.0.0.1:3000` in addition to the configured `CORS_ORIGIN`.
 

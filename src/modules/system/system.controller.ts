@@ -1,10 +1,11 @@
 
 import type { Request, Response, NextFunction } from 'express';
+import { env } from '@config/env.js';
 import { SystemService } from './system.service.js';
 import { TaskwarriorService } from '@infrastructure/taskwarrior/index.js';
 
 const systemService = new SystemService(
-  new TaskwarriorService(),
+  new TaskwarriorService({ commandPath: env.TASKWARRIOR_COMMAND }),
 );
 
 export class SystemController {

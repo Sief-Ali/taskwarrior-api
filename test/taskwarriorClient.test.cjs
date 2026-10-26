@@ -48,10 +48,16 @@ describe("TaskwarriorService mutation methods", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    service = new TaskwarriorService();
+    service = new TaskwarriorService({
+      commandPath: "/custom/taskwarrior/task",
+    });
   });
 
   it("maps task creation fields to the adapter builder", async () => {
+    expect(TaskwarriorClient).toHaveBeenCalledWith({
+      commandPath: "/custom/taskwarrior/task",
+    });
+
     await service.createTask({
       description: "Buy bread",
       project: "Home Errands",

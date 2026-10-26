@@ -97,17 +97,15 @@ The checked-in `.env.example` documents the development defaults:
 | `API_PREFIX` | `/v1` | Prefix for health and task routes. |
 | `PORT` | `5000` | Port on which the HTTP server listens. |
 | `CORS_ORIGIN` | `http://localhost:3000` | An allowed browser origin. |
-| `TASKWARRIOR_COMMAND` | `task` | Declared command setting; see the note below. |
+| `TASKWARRIOR_COMMAND` | `task` | Taskwarrior executable path passed to the adapter's `commandPath` option. |
 
 Environment values are validated with Zod at startup. Start commands from the
 server repository directory so dotenv loads `server/.env` predictably. Swagger
 UI is available at `/api-docs` and at `${API_PREFIX}/api-docs`; with the default
 prefix, that is `/v1/api-docs`.
 
-**Current limitation:** `TASKWARRIOR_COMMAND` is validated but is not currently
-passed to `TaskwarriorClient`. The adapter uses its default executable name
-(`task`). To use a different executable, the backend needs to forward this
-setting when constructing the adapter.
+Set `TASKWARRIOR_COMMAND` to an absolute path if Taskwarrior is not available
+as `task` on the server process's `PATH`.
 
 The CORS middleware permits the configured origin and the development origins
 `http://localhost:3000` and `http://127.0.0.1:3000`. CORS is a browser policy,
